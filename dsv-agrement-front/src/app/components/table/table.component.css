@@ -1,0 +1,27 @@
+
+.nav-link{
+    float: inline-start;
+}
+i,tr,input,li,h2{
+    cursor: pointer;
+}
+.nav-item {
+    display: inline-block;
+    margin-right: 5%;
+    padding: 1% 0;
+}
+.nav-item:last-child {
+    margin-right: 0;
+}
+table{
+    overflow: hidden;
+}
+.nav-link,td,th{
+    text-decoration: none;
+    padding: 0.5%;
+    border-radius: 6px;
+    border: groove transparent;
+}
+.nav-link:hover,tr:hover{
+    border-color: rgb(97, 172, 223);
+}

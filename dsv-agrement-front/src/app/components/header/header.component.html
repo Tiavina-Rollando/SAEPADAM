@@ -1,0 +1,20 @@
+<header id="header" class="header bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg rounded" aria-label="Thirteenth navbar example">
+    <img id="rep" src="../../../assets/drapo.png" alt="" width="5%" srcset="">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample">
+        <h2 id="titre" class="d-lg-flex col-lg-4 justify-content-lg-start mx-3 w-40">SAEPADA</h2>
+        <div class="d-lg-flex ms-auto"> 
+          <button id="retour" *ngIf="!isAcc" (click)="retour()" appButton appColor="color2" class="btn px-3 mx-3" title="Retour">
+            <i class="bi bi-caret-left-square"></i>
+            <span class="btn-text">Retour</span>
+          </button>  
+          <button id="co" routerLink="/login" *ngIf="isAcc" appButton appColor="color1" class="btn px-1" title="Se connecter">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span class="btn-text">Se connecter</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,18 @@
+
+.dflex{
+    background-image: url(../../../assets/abattoir-volaille.png);
+    background-repeat: no-repeat;
+    background-position: right;
+}
+/* .form-floating{
+    opacity: 0.7;
+} */
+.formClient{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 2%;
+}
+.champ{
+    margin: 10% 0 5% 5%;
+    max-width: 65%;
+}

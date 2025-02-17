@@ -1,0 +1,65 @@
+<ngx-spinner type="ball-spin-fade"></ngx-spinner>
+<!-- formulaire d'ajout de nouveau propriété pour client -->
+<form autocomplete="off" style="text-align: center; padding: 5% 30% 5% 10%;" #formulaire="ngForm">
+    <h1 class="h3 my-5 fw-normal">Ajout d' établissement</h1>
+    <div class="formClient">
+      <div class="form-floating mb-3">
+        <input placeholder="" name="nom" required type="text" [(ngModel)]="etablissement.name" class="form-control" id="floatingInputN">
+        <label for="floatingInputN">Nom *</label>
+      </div>
+      <div class="form-floating mb-3">
+          <select name="activite" type="number" class="form-control" [(ngModel)]="etablissement.type_activite_id" required id="floatingInputac">
+            <option [value]="" disabled selected></option>
+            <option *ngFor="let activity of type_activities" [value]="activity.id">{{ activity.name }}</option>
+          </select>
+          <label for="floatingInputac">Type d'activité *</label>
+      </div>        
+      <div class="form-floating mb-3">
+        <select [(ngModel)]="etablissement.region" name="region" (change)='onRegionChange()' type="text" class="form-control" id="floatingInputR" placeholder="name@example.com">
+          <option [value]=""></option>
+          <option *ngFor="let region of regions" [value]="region.nom">{{ region.nom }}</option>
+        </select>
+        <label for="floatingInputR">Region</label>
+      </div>
+      <div class="form-floating mb-3">
+          <select [(ngModel)]="etablissement.district" name="district" (change)='onDistrictChange()' type="text" class="form-control" id="floatingInputDi" placeholder="name@example.com">
+            <option [value]=""> </option>
+            <option *ngFor="let district of districts" [value]="district.nom">{{ district.nom }}</option>
+          </select>
+          <label for="floatingInputDi">District</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input placeholder="" name="commune" type="text" class="form-control" [(ngModel)]="etablissement.commune" id="floatingInputA">
+        <label for="floatingInputA">Commune</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input placeholder="" name="adresse" required type="text" class="form-control" [(ngModel)]="etablissement.adresse" id="floatingInputA">
+        <label for="floatingInputA">Adresse *</label>
+      </div>
+      <div class="form-floating mb-3">
+        <select name="type" type="text" [(ngModel)]="etablissement.type_etablissement" class="form-control" id="floatingInputt">
+          <option value=""></option>
+          <option value="Petit">Petit</option>
+          <option value="Moyen">Moyen</option>
+          <option value="Grand">Grand</option>
+        </select>
+        <label for="floatingInput">Type de l'établissement</label>
+      </div>
+      <div class="form-floating mb-3">
+        <select name="filiere" type="text" [(ngModel)]="etablissement.filiere_id" required class="form-control" id="floatingInputF">
+          <option value="" selected></option>
+          <option *ngFor="let filiere of filieres" [value]="filiere.id">{{ filiere.name }}</option>
+        </select>
+        <label for="floatingInputF">Filière *</label>
+      </div>
+      <div class="form-floating mb-3">
+          <input placeholder="" required name="typeDeProduit" type="text" [(ngModel)]="etablissement.type_produit" class="form-control" id="floatingInputtp">
+          <label for="floatingInputtp">Type de produit *</label>
+      </div>
+    </div>
+    <div *ngIf="withAgrement=='no'" >  
+      <button appColor="color1" [disabled]="formulaire.invalid||(etablissement.filiere_id*etablissement.type_activite_id)==0" class="btn w-auto py-2 mt-5" (click)="insertEstablishment()" type="submit">Ajouter</button>
+      <p class="mt-2 mb-3 text-body-secondary">&copy; 2024</p>  
+      <p style="margin: 0 2%;" class="mb-3 text-body-secondary"> * [champ obligatoire]</p>
+    </div>        
+  </form>

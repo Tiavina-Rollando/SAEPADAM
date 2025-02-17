@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+      "target": "http://dsv-agrement-api.test",
+      "secure": false,
+      "logLevel": "debug"
+    }
+  }
+  

@@ -1,0 +1,20 @@
+<div class="container m-2">
+  <div class="row" style="width: 85%; padding: 0;">
+    <div class="sidebar border border-right col-lg-12 p-4 bg-body-tertiary" style="text-align: center;">
+      <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+        <!-- case de profil -->
+        <div class="profil" (click)="editProfil()">
+          <!-- <h2 class="fw-normal"></h2> -->
+          <svg class="bd-placeholder-img rounded-circle" width="150" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Profil" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Profil</title>
+            <rect width="100%" height="100%" fill="var(--bs-secondary-color)"/>
+            <image href="../../../assets/abattoir-volaille.png" width="150" height="150" alt="Profil"/>
+          </svg>
+          
+          <h2 class="fw-normal">{{username}}</h2>
+          <a class="btn btn-secondary" *ngIf="role=='Client'">{{userdepnumber}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

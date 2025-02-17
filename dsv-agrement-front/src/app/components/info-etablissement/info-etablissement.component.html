@@ -1,0 +1,127 @@
+<a class="list-group-item list-group-item-action " aria-current="true">
+    <div class="my-3">
+        <h2 class="menu my-3">A propos de l'établissement </h2>
+        <div class="menu">
+            <ul style="text-align: center;" class="navbar-nav mx-5 justify-content-lg-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Menu</a>
+
+                    <ul class="dropdown-menu">
+                        
+                        <li (click)="update()"><a class="dropdown-item">Mettre à jour les informations</a></li>
+                        <li *ngIf="(!item.proprio)&&(object!='Mes établissements')" (click)="addProprio()"><a class="dropdown-item">Assigner un proprietaire</a></li>
+                        <li (click)="changeProprio()" *ngIf="(object!='Mes établissements')"><a class="dropdown-item">Changer le proprietaire</a></li>
+                    
+                    </ul>
+                </li>
+            </ul>
+            <div class="col-sm-6" *ngIf="toChangeProprio">
+                <input placeholder="" id="mailS" name="mailS" type="email" class="form-control" [(ngModel)]="mailS" #emailInput="ngModel" required email id="floatingInputE" #searchEmail (keyup)="searchMail(searchEmail.value)" placeholder="Rechercher un email">
+                <div>
+                    <p *ngFor="let email of emailFiltred" (click)="setEmail(email)">{{email}}</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label for="name" class="form-label">Nom</label>
+                    <p class="form-control" *ngIf="!toEdit&&!toAddProprio&&!toChangeProprio">{{item.name}}</p>
+                    <p class="form-control" *ngIf="toChangeProprio">{{user.name}}</p>
+                    <input id="name" class="form-control" *ngIf="toEdit" type="text" name="name" placeholder="{{item.name}}" [(ngModel)]="item.name">
+                    <input id="namePrprio" class="form-control" *ngIf="toAddProprio" type="text" name="nameP" placeholder="{{user.name}}" [(ngModel)]="user.name">
+                </div>
+      
+                <div class="col-sm-6" *ngIf="!toEdit&&!toAddProprio&&!toChangeProprio">
+                    <label for="lastName" class="form-label">Propriétaire</label>
+                    <p class="form-control">{{item.proprio}}</p>
+                </div>
+
+                
+                <div class="col-sm-6">
+                    <label for="mailP" *ngIf="toAddProprio||toChangeProprio" class="form-label">Email</label>
+                    <input id="mailP" *ngIf="toAddProprio" class="form-control" type="email" name="mailP" placeholder="{{user.email}}" [(ngModel)]="user.email">
+                    <p class="form-control" *ngIf="toChangeProprio">{{user.email}}</p>
+                </div>
+
+                <div class="col-sm-6">
+                    <label for="telP" *ngIf="toAddProprio||toChangeProprio" class="form-label">Tel</label>
+                    <input id="telP" *ngIf="toAddProprio" class="form-control" type="text" name="telP" placeholder="{{user.userinformation.tel}}" [(ngModel)]="user.userinformation.tel">
+                    <p class="form-control" *ngIf="toChangeProprio">{{user.userinformation.tel}}</p>
+                </div>
+              
+                <div class="col-sm-6">
+                    <label for="adr" class="form-label">Adresse</label>
+                    <p class="form-control" *ngIf="!toEdit&&!toAddProprio&&!toChangeProprio">{{item.adresse}}</p>
+                    <p class="form-control" *ngIf="toChangeProprio">{{user.userinformation.address}}</p>
+                    <input id="adr" class="form-control" *ngIf="toEdit" type="text" name="adr" placeholder="{{item.adresse}}" [(ngModel)]="item.adresse">
+                    <input id="adrProprio" class="form-control" *ngIf="toAddProprio" type="text" name="adrP" placeholder="{{user.userinformation.address}}" [(ngModel)]="user.userinformation.address">
+                </div>
+      
+                
+                <div class="col-sm-6" *ngIf="!toAddProprio&&!toChangeProprio">
+                    <label for="com" class="form-label">Commune</label>
+                    <p class="form-control" *ngIf="!toEdit">{{item.commune}}</p>
+                    <input id="com" class="form-control" *ngIf="toEdit" type="text" name="com" placeholder="{{item.commune}}" [(ngModel)]="item.commune">
+                </div>
+                
+                <div class="col-sm-6" *ngIf="!toAddProprio&&!toChangeProprio">
+                    <label for="firstName" class="form-label">Region</label>
+                    <p class="form-control" *ngIf="!toEdit">{{item.region}}</p>
+                    <select [(ngModel)]="item.region" *ngIf="toEdit" name="region" (change)='onRegionChange()' type="text" class="form-control" id="floatingInputR" placeholder="name@example.com">
+                        <option [value]=""> </option>
+                        <option *ngFor="let region of regions" [value]="region.nom">{{ region.nom }}</option>
+                    </select>  
+                </div>
+                
+                <div class="col-sm-6" *ngIf="!toAddProprio&&!toChangeProprio">
+                    <label for="lastName" class="form-label">District</label>
+                    <p class="form-control" *ngIf="!toEdit">{{item.district}}</p>
+                    <select [(ngModel)]="item.district" *ngIf="toEdit" name="district" (change)='onDistrictChange()' type="text" class="form-control" id="floatingInputDi" placeholder="name@example.com">
+                        <option [value]=""> </option>
+                        <option *ngFor="let district of districts" [value]="district.nom">{{ district.nom }}</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-6" *ngIf="!toAddProprio&&!toChangeProprio">
+                    <label for="lastName" class="form-label">Filière</label>
+                    <p class="form-control" *ngIf="!toEdit">{{item.filiere.name}}</p>
+                    <select name="filiere" *ngIf="toEdit" type="text" [(ngModel)]="item.filiere_id" class="form-control" id="floatingInputF">
+                        <option value=""></option>
+                        <option *ngFor="let filiere of filieres" [value]="filiere.id">{{ filiere.name }}</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-6" *ngIf="!toAddProprio&&!toChangeProprio">
+                    <label for="veto" class="form-label">Vétérinaire responsable</label>
+                    <p class="form-control" *ngIf="!toEdit">{{item.veterinaire}}</p>
+                    <input id="veto" class="form-control" *ngIf="toEdit&&(object!='Mes établissements')" type="text" name="veto" placeholder="{{item.veterinaire}}" [(ngModel)]="item.veterinaire">
+                </div>
+
+                <div class="form" *ngIf="(item.veterinaire!='')&&toEdit&&!toChangeProprio&&!toAddProprio&&(object!='Mes établissements')">
+                    <input type="checkbox"  name="checkInfoVeto" (change)="onCheckboxChange($event)" id="CIV">
+                    <label for="CIV">Ajouter des informations supplémentaires</label>
+                </div>
+                <div class="form-floating" *ngIf="withVetInfo">
+                    <input placeholder="" name="emailveto" type="text" class="form-control" [(ngModel)]="veto.email" id="floatingInputA">
+                    <label for="floatingInputA">Email Vétérinaire</label>
+                </div>
+                <div class="form-floating" *ngIf="withVetInfo">
+                    <input placeholder="" name="adrveto" type="text" class="form-control" [(ngModel)]="veto.address" id="floatingInputA">
+                    <label for="floatingInputA">Adresse Vétérinaire</label>
+                </div>
+                <div class="form-floating" *ngIf="withVetInfo">
+                    <input placeholder="" name="telveto" type="text" class="form-control" [(ngModel)]="veto.tel" id="floatingInputA">
+                    <label for="floatingInputA">Tel Vétérinaire</label>
+                </div>
+
+                 <!-- boutton d'enregistrement -->
+                <button *ngIf="toEdit" style="margin: 5% 65%;" class="btn mt-5 w-auto py-2" appColor="color4" (click)="updateEtablissement()" type="submit">Enregistrer</button>
+                <button *ngIf="toChangeProprio||toAddProprio" style="margin: 5% 65%;" class="btn mt-5 w-auto py-2" appColor="color4" (click)="addProprioTo()" type="submit">Assigner</button>
+       
+            </div>
+        </div>
+    </div>
+</a>
+
+

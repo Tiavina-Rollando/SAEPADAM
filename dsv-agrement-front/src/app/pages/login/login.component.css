@@ -1,0 +1,41 @@
+.form-floating{
+    width: 100%;
+}
+.form-control{
+    margin: 3% 0;
+}
+.link{
+    color: rgba(120, 121, 126, 0.747);
+}
+.form-floating {
+    position: relative;
+}
+
+#floatingPassword {
+    padding-right: 40px; /* Ajouter un espace pour l'icône */
+}
+
+#eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+input.ng-invalid.ng-touched {
+    border-color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8em;
+}
+  
+
+form{
+    background-image: url(../../../assets/abattoir-volaille.png);
+    background-repeat: no-repeat;
+    background-position: right;
+}
+ 

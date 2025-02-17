@@ -1,0 +1,12 @@
+#deco{
+    float: right;
+}
+.d-flex{
+    background-image: url(../../../assets/abattoir-volaille.png);
+    background-repeat: no-repeat;
+    background-position: right;
+}
+.formulaire{
+    width: 45%;
+    margin-left: 25%;
+}

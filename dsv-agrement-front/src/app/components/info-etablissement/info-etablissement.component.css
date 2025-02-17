@@ -1,0 +1,13 @@
+
+.list-group-item{
+    width: 50%;
+    left: 25%;  
+    overflow: hidden;
+}
+.dropdown-item:hover, p:hover{
+    background-color: rgba(65, 105, 225, 0.137);
+    cursor: pointer;
+}
+.nav-link:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,25 @@
+<nav aria-label="Page navigation example">
+  <input type="number" [(ngModel)]="pageSize" (change)="setPageSize(pageSize)" min="1" step="1">
+  <ul class="pagination justify-content-center">
+    <!-- Bouton "First" -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a class="page-link" (click)="sendCurrentPage(1)">Premier</a>
+    </li>
+    <!-- Bouton "Previous" -->
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a class="page-link" (click)="sendCurrentPage(currentPage - 1)">Précédent</a>
+    </li>
+    <!-- Liens de pagination -->
+    <li *ngFor="let i of indices" class="page-item" [class.active]="i+1 === currentPage">
+      <a class="page-link" (click)="sendCurrentPage(i+1)">{{i+1}}</a>
+    </li>
+    <!-- Bouton "Next" -->
+    <li class="page-item" [class.disabled]="currentPage === indices.length">
+      <a class="page-link" (click)="sendCurrentPage(currentPage + 1)">Suivant</a>
+    </li>
+    <!-- Bouton "Last" -->
+    <li class="page-item" [class.disabled]="currentPage === indices.length">
+      <a class="page-link" (click)="sendCurrentPage(indices.length)">Dernier</a>
+    </li>
+  </ul>
+</nav>

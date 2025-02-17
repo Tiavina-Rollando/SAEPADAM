@@ -1,0 +1,38 @@
+  
+  <!-- formulaire de connexion   -->
+  <form style="text-align: center; padding: 5% 30%;" autocomplete="off">
+    <h1 class="h3 my-5 fw-normal">Connectez-vous</h1>
+    <div class="form-floating mb-4">
+      <input
+        name="email"
+        [(ngModel)]="email"
+        [type]="'email'"
+        class="form-control"
+        id="floatingInputAE"
+        placeholder="name@example.com"
+        required
+        email
+        #emailInput="ngModel"
+        (ngModelChange)="validateEmail(emailInput)"
+      />
+      <label for="floatingInputAE" style="display: inline-flex;">
+        <i style="margin: 0% 5%;" class="bi bi-envelope-open-fill"></i>
+        <p>Adresse E-mail</p>
+      </label>
+      <div *ngIf="emailInput.invalid && emailInput.touched" class="error-message">
+        Veuillez entrer une adresse e-mail valide.
+      </div>
+    </div>
+    
+    <div class="form-floating mb-4">
+      <input [type]=" show_password ? 'text' : 'password'" name="mdp" [(ngModel)]="password" class="form-control" id="floatingPassword" (keydown.enter)="login()" placeholder="Password">
+      <i class="fa" [ngClass]="{'fa-eye ': show_password, 'fa-eye-slash': !show_password}" id="eye-icon" (click)="showpassword()"></i>
+      <label for="floatingPassword" style="display: inline-flex;"><i style="margin: 0% 5%;" class="bi bi-key-fill"></i><p>Mot de passe</p></label>
+    </div>
+    <a routerLink="/register">S'inscrire</a>
+    <p class="link" (click)="changePassword()" >Mot de passe oublié?</p>
+    <button [disabled]="emailInput.invalid||password==null" appColor="color1" class="btn w-25 py-2" type="submit" (click)="login()">Connecter</button>
+    <ngx-spinner type="ball-spin-fade"></ngx-spinner>
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
+    <p class="text-body-secondary">[Tous les champs sont obligatoires]</p>
+  </form>

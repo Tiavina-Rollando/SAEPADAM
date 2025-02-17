@@ -1,0 +1,50 @@
+<div class="d-flex flex-column my-5 py-md-5 justify-content-center">
+    <h4 class="formulaire my-5">Votre profil</h4>
+     
+    <form class="needs-validation" novalidate>
+      <div class="formulaire">
+        
+        <div class="col">
+          <label for="username" class="form-label">Nom d'utilisateur</label>
+          <div class="input-group has-validation">
+            <p class="form-control">{{user.name}}</p>
+          </div>
+        </div>
+  
+        <div class="col">
+          <label for="email" class="form-label">Adresse E-mail</label>
+          <p class="form-control">{{user.email}}</p>
+        </div>
+  
+        <div class="col">
+          <label for="address" class="form-label">Adresse</label>
+          <p class="form-control">{{user.userinformation.address}}</p>
+        </div>
+  
+        <div class="col">
+          <label for="tel" class="form-label">Tel</label>
+          <div class="input-group has-validation">
+            <p class="form-control">{{user.userinformation.tel}}</p>
+          </div>
+        </div>
+  
+        <div class="col" *ngIf="user.roles[0].id!=4">
+          <label for="matricule" class="form-label">Matricule</label>
+          <div class="input-group has-validation">
+            <p class="form-control">{{user.userinformation.matricule}}</p>
+          </div>
+        </div>
+
+        <div>
+          <button appColor="color4" class="btn mt-5 w-auto py-2" routerLink="/page/acc/profil/edit/{{user.id}}">Modifier</button>
+          <button id="deco" (click)="loggout()" appColor="color3" class="btn w-auto px-1 py-2 mt-5" title="Se déconnecter">
+            <i class="i bi-box-arrow-left"></i>
+            <span class="btn-text">Se déconnecter</span>
+          </button>
+        </div>
+        
+      </div>
+    </form>
+  </div>
+  
+  

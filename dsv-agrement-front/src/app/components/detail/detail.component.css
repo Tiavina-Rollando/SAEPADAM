@@ -1,0 +1,27 @@
+th,td{
+    width: auto;
+    column-gap: 50px;
+    height: 30px;}
+tr:hover{
+    background-color: rgba(65, 105, 225, 0.103);
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 250px;
+    height: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease, height 0.3s ease; /* Transitions pour transform et height */
+    position: absolute;
+    cursor: pointer;
+    border: 1px solid #444; /* Bordure pour correspondre à l'apparence initiale */
+  }
+  
+.tableauList{
+    background-image: url(../../../assets/abattoir-volaille.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}

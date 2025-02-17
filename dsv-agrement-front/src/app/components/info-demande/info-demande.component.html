@@ -1,0 +1,81 @@
+<a class="list-group-item list-group-item-action" aria-current="true">
+    <div class="my-3">
+        <h2 class="menu my-3 mx-5" >A propos de la demande d' agrément</h2>
+        <div class="menu" *ngIf="object!='Mes établissements'">
+            <ul style="text-align: center;" class="navbar-nav mx-5 justify-content-lg-center">
+                <li class="nav-item dropdown">
+                    <a *ngIf="item.status!=3" class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Menu</a>
+                    <ul class="dropdown-menu">
+                        <li class="liste" (click)="examinerDemA(item.id)">
+                            <img width="5%" class="rounded-pill mx-3 my-2" src="../../../assets/examiner.jpg" alt="" title="Examiner l'établissement">
+                            <span class="btn-text">Examiner</span>
+                        </li>
+                        <li class="liste" (click)="validerDemA(item.id)">
+                            <img width="5%" class="rounded-pill mx-3 my-2" src="../../../assets/valider.jpg" alt="" title="Accépter la demande">
+                            <span class="btn-text">Valider</span>
+                        </li>
+                        <li class="liste" (click)="refuserDemA(item.id)">
+                            <img width="5%" class="rounded-pill mx-3 my-2" src="../../../assets/refuser.png" alt="" title="Refuser la demande">
+                            <span class="btn-text">Refuser</span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="menu" *ngIf="(object=='Mes établissements')&&(item.statusdemandeagrement.name=='Nouveau')">
+            <ul style="text-align: center;" class="navbar-nav mx-5 justify-content-lg-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Menu</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <img width="5%" class="rounded-pill mx-5" src="../../../assets/delete.png" (click)="retirerDemA(item.id)" alt="" title="Retirer la demande">
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label class="form-label">Type d'agrément</label>
+                    <div class="input-group has-validation" *ngIf="(object!='Mes établissements')&&(object!='Etablissements')">
+                        <input type="text" disabled class="form-control" id="t_a" name="t_a" placeholder="{{item.type_agrement.name}}" [(ngModel)]="item.type_agrement.name">
+                        <span class="input-group-text" [ngStyle]="getBg(item.type_agrement.name)"></span>
+                    </div>
+                    <div class="input-group has-validation" *ngIf="(object=='Mes établissements')||(object=='Etablissements')">
+                        <input type="text" disabled class="form-control" id="ta" name="ta" placeholder="{{item.typeagrement.name}}" [(ngModel)]="item.typeagrement.name">
+                        <span class="input-group-text" [ngStyle]="getBg(item.typeagrement.name)"></span>
+                    </div>
+                </div>
+        
+                <div class="col-sm-6">
+                    <label class="form-label">Etat de la demande</label>
+                    <div class="input-group has-validation" *ngIf="object!='Mes établissements'">
+                        <input type="text" disabled class="form-control" id="s_d_a" name="s_d_a" placeholder="{{item.status_demande_agrement.name}}" [(ngModel)]="item.status_demande_agrement.name">
+                        <span class="input-group-text" [ngStyle]="getBg(item.status_demande_agrement.name)"></span>
+                    </div>
+                    <div class="input-group has-validation" *ngIf="object=='Mes établissements'">
+                        <input type="text" disabled class="form-control" id="sda" name="sda" placeholder="{{item.statusdemandeagrement.name}}" [(ngModel)]="item.statusdemandeagrement.name">
+                        <span class="input-group-text" [ngStyle]="getBg(item.statusdemandeagrement.name)"></span>
+                    </div>
+                </div>
+                
+                <div class="col-sm-6">
+                    <label class="form-label" *ngIf="object!='Mes établissements'">Date de réçeption</label>
+                    <label class="form-label" *ngIf="object=='Mes établissements'">Date d'envoye</label>
+                    <p class="form-control">{{item.created_at|date}}</p>
+                </div>
+        
+                <div class="col-sm-6">
+                    <label class="form-label">Date de dérnière modification</label>
+                    <p class="form-control">{{item.updated_at|date}}</p>
+                </div>
+
+            </div> 
+        </div>
+    </div>
+</a>
+
+
+
+

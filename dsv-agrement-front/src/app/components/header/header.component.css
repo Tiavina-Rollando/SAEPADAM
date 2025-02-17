@@ -1,0 +1,47 @@
+#header{
+    position: fixed;
+    /* background-color:transparent; */
+    width: 100%;
+    top: 0;
+    z-index: 1;
+  }
+.header-transparent {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    transition: backgroundColor 0.1s ease-in-out;
+}
+
+.header-transparent .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+img{
+    margin-left: 2%;
+}
+
+img.hidden{
+    opacity: 0;
+}
+
+#titre.hidden{
+    opacity: 0;
+}
+
+.btn{
+    overflow: hidden; /* Pour éviter que le texte dépasse du bouton */
+    white-space: nowrap; /* Empêche le texte de se casser en plusieurs lignes */
+    transition: width 0.3s ease, color 0.3s ease; /* Transition pour la largeur et le texte */
+    width: 40%;
+}
+
+.btn .btn-text {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding-left: 2%;
+}
+
+.btn.show-text .btn-text {
+    opacity: 1;
+}

@@ -1,0 +1,8 @@
+<ngx-spinner type="ball-spin-fade"></ngx-spinner>
+<div class="tableauList" style="text-align: center; padding-top: 5%;">
+    <div class="list-group">
+        <app-info-etablissement [item]="etablissement" [object]="object"></app-info-etablissement>
+        <app-info-demande [item]="demande" [object]="object" *ngIf="hasSendRequest"></app-info-demande>
+        <app-info-agrement [id]="id" [item]="agrement" [qrcodeUrl]="qrcodeUrl" [demA]="demande" [object]="object" [withAgrement]="withAgrement"></app-info-agrement>
+    </div> 
+</div>

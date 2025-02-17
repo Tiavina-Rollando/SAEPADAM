@@ -1,0 +1,158 @@
+<ngx-spinner type="ball-spin-fade"></ngx-spinner>
+<div class="dflex">
+    <!-- formulaire d'ajout de nouvel établissement -->
+    <div class="champ" *ngIf="!etabOk">
+        <!-- formulaire d'ajout de nouveau propriété pour client -->
+        <form autocomplete="off" #formulaire="ngForm">
+            <h1 class="h3 my-5 fw-normal">Ajout d' établissement</h1>
+            <div class="formClient">
+                <div class="form-floating mb-4">
+                    <input placeholder="" name="nom" type="text" [(ngModel)]="etablissement.name" required class="form-control" id="floatingInputN">
+                    <label for="floatingInputN">Nom *</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <select name="filiere" type="number" [(ngModel)]="etablissement.filiere_id" required class="form-control" id="floatingInputF">
+                    <option [value]=""></option>
+                    <option *ngFor="let filiere of filieres" [value]="filiere.id">{{ filiere.name }}</option>
+                    </select>
+                    <label for="floatingInputF">Filière *</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <select [(ngModel)]="etablissement.region" name="region" (change)='onRegionChange()' type="text" class="form-control" id="floatingInputR" placeholder="name@example.com">
+                    <option [value]=""> </option>
+                    <option *ngFor="let region of regions" [value]="region.nom">{{ region.nom }}</option>
+                    </select>
+                    <label for="floatingInputR">Region</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <select [(ngModel)]="etablissement.district" name="district" (change)='onDistrictChange()' type="text" class="form-control" id="floatingInputDi" placeholder="name@example.com">
+                        <option [value]=""> </option>
+                        <option *ngFor="let district of districts" [value]="district.nom">{{ district.nom }}</option>
+                    </select>
+                    <label for="floatingInputDi">District</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input placeholder="" name="commune" type="text" class="form-control" [(ngModel)]="etablissement.commune" id="floatingInputA">
+                    <label for="floatingInputA">Commune</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input placeholder="" name="adresse" type="text" class="form-control" [(ngModel)]="etablissement.adresse" required id="floatingInputA">
+                    <label for="floatingInputA">Adresse *</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <select name="activite" type="number" class="form-control" [(ngModel)]="etablissement.type_activite_id" required id="floatingInputac">
+                        <option [value]=""></option>
+                        <option *ngFor="let activity of type_activities" [value]="activity.id">{{ activity.name }}</option>
+                    </select>
+                    <label for="floatingInputac">Type d'activité *</label>
+                </div>        
+                <div class="form-floating mb-4">
+                    <input placeholder="" name="typeDeProduit" type="text" [(ngModel)]="etablissement.type_produit" required class="form-control" id="floatingInputtp">
+                    <label for="floatingInputtp">Type de produit *</label>
+                </div>    
+                <div class="form-floating mb-4">
+                    <select name="type" type="text" [(ngModel)]="etablissement.type_etablissement" class="form-control" id="floatingInputt">
+                        <option value=""></option>
+                        <option value="Petit">Petit</option>
+                        <option value="Moyen">Moyen</option>
+                        <option value="Grand">Grand</option>
+                    </select>
+                    <label for="floatingInput">Type de l'établissement</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input placeholder="" name="veto" type="text" class="form-control" (keyup)="onVetoChange()" [(ngModel)]="etablissement.veterinaire" id="floatingInputA">
+                    <label for="floatingInputA">Vétérinaire officiel</label>
+                    
+                    <div class="formCheck" *ngIf="etablissement.veterinaire!=''">
+                        <input type="checkbox"  name="checkInfoVeto" (change)="onCheckboxChange($event)" id="CIV">
+                        <label for="CIV">Ajouter des informations supplémentaires</label>
+                    </div>
+                </div>
+                <div class="form-floating mb-4" *ngIf="withVetoInfo">
+                    <input placeholder="" name="emailveto" type="text" class="form-control" [(ngModel)]="etablissement.veterinaires.email" id="floatingInputA">
+                    <label for="floatingInputA">Email Vétérinaire</label>
+                </div>
+                <div class="form-floating mb-4" *ngIf="withVetoInfo">
+                    <input placeholder="" name="adrveto" type="text" class="form-control" [(ngModel)]="etablissement.veterinaires.address" id="floatingInputA">
+                    <label for="floatingInputA">Adresse Vétérinaire</label>
+                </div>
+                <div class="form-floating mb-4" *ngIf="withVetoInfo">
+                    <input placeholder="" name="telveto" type="text" class="form-control" [(ngModel)]="etablissement.veterinaires.tel" id="floatingInputA">
+                    <label for="floatingInputA">Tel Vétérinaire</label>
+                </div>
+            </div>
+
+            <!-- boutton d'enregistrement -->
+            <button style="margin: 5% 65%;" appColor="color1" [disabled]="formulaire.invalid||(etablissement.filiere_id*etablissement.type_activite_id)==0" class="btn w-auto" (click)="etablissementOk()" type="submit">Suivant</button>
+            <p style="margin: 0 40%;" class="mb-2 text-body-secondary">&copy; 2024</p>            
+            <p style="margin: 0 35%;" class="mb-2 text-body-secondary"> * [champ obligatoire]</p>            
+        </form>
+    </div>
+
+    <!-- formulaire d'ajout de nouveau client -->
+    <div class="champ" *ngIf="etabOk&&!cliOk&&withClientInfo">
+        <!-- formulaire d' enregistrement -->
+        <form #formClient="ngForm" autocomplete="off">
+            <h1 class="h3 my-5 fw-normal">Ajouter le client</h1>
+            
+            <div class="form-floating mb-4">
+            <input placeholder="" name="mail" type="email" class="form-control" [(ngModel)]="user.email" #emailInput="ngModel" required email id="floatingInputE" #searchEmail (keyup)="searchMail(searchEmail.value)" placeholder="Rechercher un email">
+            <div>
+                <p *ngFor="let email of emailFiltred" (click)="setEmail(email)">{{email}}</p>
+            </div>
+            <label for="floatingInputE">Adresse E-mail</label>
+            </div>
+            <div class="form-floating mb-4">
+            <input type="text" name="name" class="form-control" id="floatingInputN" [(ngModel)]="user.name" required placeholder="Nom">
+            <label for="floatingInputN"style="display: inline-flex;"><i style="padding:0 1%" class="bi bi-person"></i><p>Nom d'utilisateur</p></label>
+            </div>
+            <div class="form-floating mb-4">
+            <input type="text" name="adresse" class="form-control" id="floatingInputA" placeholder="Adresse" [(ngModel)]="user.userinformation.address" required>
+            <label for="floatingInputA" style="display: inline-flex;"><i style="padding:0 1%" class="bi bi-geo-alt"></i><p>Adresse</p></label>
+            </div>
+            <div class="form-floating mb-4">
+            <input type="text" name="tel" class="form-control" id="floatingInputT" placeholder="Tel" [(ngModel)]="user.userinformation.tel" required>
+            <label for="floatingInputT"style="display: inline-flex;"><i style="padding:0 1%" class="bi bi-phone"></i><p>Téléphone</p></label>
+            </div>
+            <!-- boutton d'enregistrement -->
+            <button style="margin: 5% 30% 0 0;" appColor="color2" class="btn w-auto" (click)="etablissementNotOk()" type="submit">Précédent</button>
+            <button style="margin: 5% 0 0 30%;" appColor="color1" [disabled]="formClient.invalid||emailInput.invalid" class="btn w-auto" (click)="clientOk()" type="submit">Suivant</button>
+            <p style="margin: 0 40%;" class="text-body-secondary">&copy; 2024</p>
+            <p style="margin: 0 30%;" class="mb-4 text-body-secondary">[Tous les champs sont obligatoires]</p>
+
+        </form>
+    
+    </div>
+
+    <div class="champ" *ngIf="etabOk&&cliOk&&withAgrement">
+            
+        <!-- formulaire d'ajout d'agrement -->
+        <form autocomplete="off" #formAgrement="ngForm" id="agrement" (keydown.escape)="clientNotOk()" (keydown.enter)="insertAgrement()">
+            <h1 class="h3 my-5 fw-normal">Ajout d'agrement</h1>
+
+            <div class="form-floating mb-4">
+                <input placeholder="" [(ngModel)]="agrement.numero" required name="numero" type="text" class="form-control" id="floatingInputNum">
+                <label for="floatingInputNum">Numero de l'agrement</label>
+            </div>
+            <div class="form-floating mb-4">
+                <select name="type" class="form-control" [(ngModel)]="agrement.type_agrement_id" required id="floatingInputT">
+                    <option [ngValue]="" disabled selected>Choisissez le type d'agrément</option>
+                    <option [ngValue]="2">Définitif</option>
+                    <option [ngValue]="1">Provisoire</option>
+                </select>
+            
+                <label for="floatingInputT">Type de l'agrement</label>
+            </div>
+            <div class="form-floating mb-4">
+                <input placeholder="" [(ngModel)]="agrement.date_debut" required name="dateDebut" type="date" class="form-control" id="floatingInputA">
+                <label for="floatingInputA">Date de début </label>
+            </div>
+            <!-- boutton d'enregistrement -->   
+            <button style="margin: 5% 30% 0 0;" appColor="color2" class="btn w-auto" (click)="clientNotOk()" type="submit">Précédent</button>
+            <button style="margin: 5% 0 0 30%;" [disabled]="formAgrement.invalid||agrement.type_agrement_id==0" appColor="color1" class="btn w-auto" type="submit" (click)="insertAgrement()">Ajouter</button>
+            <p  style="margin: 0 40%;" class="mb-4 text-body-secondary">&copy; 2024</p>
+            <p style="margin: 0 30%;" class="mb-4 text-body-secondary">[Tous les champs sont obligatoires]</p>
+        </form>
+
+    </div>
+</div>

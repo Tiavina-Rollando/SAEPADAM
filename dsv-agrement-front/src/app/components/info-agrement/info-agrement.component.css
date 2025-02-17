@@ -1,0 +1,17 @@
+#qrcode{
+    width: 100px;
+    height: 100px;
+}
+.list-group-item{
+    width: 50%;
+    left: 25%;  
+}
+
+.dropdown-item:hover,p:hover{
+    background-color: rgba(65, 105, 225, 0.137);
+    cursor: pointer;
+}
+
+li{
+    cursor: pointer;
+}

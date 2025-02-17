@@ -1,0 +1,191 @@
+
+@keyframes bg-slide {
+  0% {
+    background-image: var(--bg1);
+    background-size:contain;
+    background-position: right;
+    background-repeat:no-repeat;
+  }
+  25% {
+    background-image: var(--bg2);
+    background-size: cover;
+    background-position: center;
+  }
+  50% {
+    background-image: var(--bg3);
+    background-size: cover;
+    background-position: center;
+  }
+  75% {
+    background-image: var(--bg4);
+    background-size: cover;
+    background-position: center;
+  }
+  100% {
+    background-image: var(--bg3);
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/*
+  * Custom translucent site header
+  */
+
+.site-header {
+  background-color: rgba(0, 0, 0, .85);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+.site-header a {
+  color: #8e8e8e;
+  transition: color .15s ease-in-out;
+}
+.site-header a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/*
+  * Dummy devices (replace them with your own or something else entirely!)
+  */
+
+.product-device {
+  position: absolute;
+  right: 10%;
+  bottom: -30%;
+  width: 300px;
+  height: 540px;
+  background-color: #333;
+  border-radius: 21px;
+  transform: rotate(30deg);
+}
+
+.product-device::before {
+  position: absolute;
+  top: 10%;
+  right: 10px;
+  bottom: 10%;
+  left: 10px;
+  content: "";
+  background-color: rgba(255, 255, 255, .1);
+  border-radius: 5px;
+}
+
+.product-device-2 {
+  top: -25%;
+  right: auto;
+  bottom: 0;
+  left: 5%;
+  background-color: #e5e5e5;
+}
+
+
+/*
+  * Extra utilities
+  */
+
+.flex-equal > * {
+  flex: 1;
+}
+@media (min-width: 768px) {
+  .flex-md-equal > * {
+    flex: 1;
+  }
+}
+@media screen and (max-width: 650px) {
+  .content {
+      flex-direction: column;
+      width: max-content;
+  }
+
+  .divider {
+      height: 1px;
+      width: 100%;
+      background: var(--red-to-pink-to-purple-horizontal-gradient);
+      margin-block: 1.5rem;
+  }
+}
+  @media screen and (max-width: 650px) {
+  .content {
+      flex-direction: column;
+      width: max-content;
+  }
+
+  .divider {
+      height: 1px;
+      width: 100%;
+      background: var(--red-to-pink-to-purple-horizontal-gradient);
+      margin-block: 1.5rem;
+  }
+}
+
+main{
+  margin-top: 5%;
+}
+
+.content {
+  --bg1: url('../../../assets/abattoir-volaille.png'); 
+  --bg2: url('../../../assets/abattoir.jpg'); 
+  --bg3: url('../../../assets/abeilles.jpg'); 
+  --bg4: url('../../../assets/larve.jpg'); 
+  --bg5: url('../../../assets/Supermarche.jpg');
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  position: relative;
+  align-items: center;
+}
+
+.content h1 {
+  position:absolute;    
+  color: whitesmoke ;
+}
+
+
+/* background-slide */
+.content::before {
+  content: "";
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height:100%;
+  animation: bg-slide 300s infinite;
+}
+
+.card {
+  /* top: 0; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.5s ease, height 0.3s ease; /* Transitions pour transform et height */
+  position: absolute;
+  cursor: pointer;
+  border: 1px solid #444; /* Bordure pour correspondre à l'apparence initiale */
+  opacity: 0.8;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.5em; /* Ajuster la taille de la police pour le titre */
+}
+
+.card p {
+  font-size: 1em; /* Ajuster la taille de la police pour le paragraphe */
+  text-align: center; /* Centrer le texte */
+}
+
+.text-container {
+  overflow: hidden;
+  transition: height 0.3s ease; /* Assurez-vous que la carte s'ajuste en hauteur */
+  /* Autres styles par défaut */
+}
+
+.text-container.expanded {
+  height: auto;
+  overflow: visible; /* ou auto si nécessaire */
+}

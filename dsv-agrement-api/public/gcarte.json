@@ -1,0 +1,559 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger GCarte - OpenAPI 2.0",
+    "description": "This is a doc",
+    "contact": {
+      "email": "tsoa.le.rdh@gmail.com"
+    },
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://carteproducteur.minae.gov.mg/api/v2"
+    }
+  ],
+  "tags": [
+    {
+      "name": "folder",
+      "description": "Everything about your Folders"
+    },
+    {
+      "name": "producteur",
+      "description": "Everything about your Producteur"
+    },
+    {
+      "name": "check-user",
+      "description": "Operations about user"
+    }
+  ],
+  "paths": {
+    "/check-user": {
+      "post": {
+        "tags": [
+          "check-user"
+        ],
+        "summary": "Authentification",
+        "description": "attemps to auth and get token",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Password of user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthRes"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthRes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/g-carte/folder/list": {
+      "post": {
+        "tags": [
+          "folder"
+        ],
+        "summary": "Get folder list",
+        "description": "Get all existed folder in server",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token returned by auth",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Folder"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Folder"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/g-carte/folder/show": {
+      "post": {
+        "tags": [
+          "folder"
+        ],
+        "summary": "Find content of selected folder",
+        "description": "Get all producteur in selected folder",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token returned by auth",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "id of folder",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SimpleProd"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SimpleProd"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/g-carte/producteur/plage": {
+      "post": {
+        "tags": [
+          "producteur"
+        ],
+        "summary": "Get all producteur in specified plage",
+        "description": "Get all producteur in specified plage",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token returned by auth",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "id of starting plage",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "id of ending plage",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producteur"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Producteur"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/g-carte/producteur/key": {
+      "post": {
+        "tags": [
+          "producteur"
+        ],
+        "summary": "Get all simplified producteur by key",
+        "description": "Get all simplified producteur by key",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token returned by auth",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SimpleProd"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SimpleProd"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/g-carte/producteur/show": {
+      "post": {
+        "tags": [
+          "producteur"
+        ],
+        "summary": "Find producteur by id",
+        "description": "Find producteur by id",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Token returned by auth",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "id of producteur",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Producteur"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Producteur"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "name": {
+            "type": "string",
+            "example": "theUser"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@email.com"
+          },
+          "token": {
+            "type": "string",
+            "example": "isdkjbskjkdgflzeyulbfdlkjlJhgIHJHD="
+          }
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "SimpleProd": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 13017
+          },
+          "matricule": {
+            "type": "string",
+            "example": "PRD26112112585480"
+          }
+        },
+        "xml": {
+          "name": "simpleprod"
+        }
+      },
+      "Folder": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 3
+          },
+          "name": {
+            "type": "string",
+            "example": "theFolder"
+          },
+          "description": {
+            "type": "string",
+            "example": "theDescription"
+          },
+          "project_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": null
+          },
+          "producteur_count": {
+            "type": "string",
+            "example": "10"
+          }
+        },
+        "xml": {
+          "name": "folder"
+        }
+      },
+      "ProducteurLocalisation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "province": {
+            "type": "string",
+            "example": "ANTANANARIVO"
+          },
+          "region": {
+            "type": "string",
+            "example": "BONGOLAVA"
+          },
+          "district": {
+            "type": "string",
+            "example": "TSIROANOMANDIDY"
+          },
+          "commune": {
+            "type": "string",
+            "example": "ANKADINONDRY SAKAY"
+          },
+          "fokontany": {
+            "type": "string",
+            "example": "ANTSAHANTANTERAKA"
+          }
+        },
+        "xml": {
+          "name": "producteurlocalisation"
+        }
+      },
+      "ProducteurAdresse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "producteur_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "tel": {
+            "type": "string",
+            "example": "0344393525"
+          }
+        },
+        "xml": {
+          "name": "producteuradresse"
+        }
+      },
+      "Producteur": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "avatar": {
+            "type": "string",
+            "example": "storage/img/PRODUCTEUR 1.jpg"
+          },
+          "anarana": {
+            "type": "string",
+            "example": "ANDRIATOABOLA name"
+          },
+          "avatar_content": {
+            "type": "string",
+            "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAS4AAAEuCAYAAAAwQP9DAAA..."
+          },
+          "naissance_date": {
+            "type": "string",
+            "example": "1978-04-13"
+          },
+          "naissance_lieu": {
+            "type": "string",
+            "example": "SOAVINANDRIANA"
+          },
+          "cin": {
+            "type": "string",
+            "example": "113011021097"
+          },
+          "cin_date": {
+            "type": "string",
+            "example": "1997-04-22"
+          },
+          "cin_lieu": {
+            "type": "string",
+            "example": "SOAVINANDRIANA"
+          },
+          "matricule": {
+            "type": "string",
+            "example": "PRD23112112571045"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2022-01-15T12:18:51.000000Z"
+          },
+          "qr": {
+            "type": "string",
+            "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAS4AAAEuCAYAAAAwQP9DAAA..."
+          },
+          "localisation": {
+            "$ref": "#/components/schemas/ProducteurLocalisation"
+          },
+          "adresse_contacte": {
+            "$ref": "#/components/schemas/ProducteurAdresse"
+          }
+        },
+        "xml": {
+          "name": "producteur"
+        }
+      },
+      "AuthRes": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "xml": {
+          "name": "authres"
+        }
+      }
+    }
+  }
+}

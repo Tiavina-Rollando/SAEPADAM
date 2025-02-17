@@ -1,0 +1,32 @@
+<ul style="text-align: center;" class="navbar-nav col-lg-10 justify-content-lg-center">
+    <li class="nav-item dropdown" *ngIf="((role=='Administrateur')||(role=='Super Administrateur'))">
+        <a class="nav-link dropdown-toggle" title="Nouvelle demande d'agrement" href="/page/acc/Demandes d'agrement">Notifications</a><span *ngIf="notif>0" class="badge">{{notif}}</span>
+    </li>
+    <li class="nav-item dropdown" *ngIf="(role=='Client')">
+        <a class="nav-link dropdown-toggle" href="/page/acc/Nouveau agrement" title="Nouvel agrement d'établissement">Notifications</a><span *ngIf="unseen>0" class="badge">{{unseen}}</span>
+    </li>
+    <li class="nav-item dropdown" *ngIf="(role=='Administrateur')||(role=='Super Administrateur')">
+        <a class="nav-link dropdown-toggle" href="/page/acc/Toutes les demandes d'agrement" title="Toutes les demandes">Historiques</a>
+    </li>
+    <li *ngIf="(role=='Administrateur')||(role=='Super Administrateur')" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Ajouter</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/page/signup">Administrateur</a></li>
+            <li><a class="dropdown-item" href="/page/addVeto">Vétérinaire officiel</a></li>
+            <li><a class="dropdown-item" href="/page/addAgrement">Etablissement</a></li>
+        </ul>
+    </li>
+    <li class="nav-link" *ngIf="role=='Client'"><a class="dropdown-item" href="/page/addEstablishment">Ajouter un nouveau établissement</a></li>
+    <li class="nav-item dropdown" *ngIf="(role=='Administrateur')||(role=='Super Administrateur')">
+        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Voir</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/page/acc/Administrateurs">Administrateurs</a></li>
+            <li><a class="dropdown-item" href="/page/acc/Vétérinaires">Vétérinaires officiels</a></li>
+            <li><a class="dropdown-item" href="/page/acc/Agrements">Agrements</a></li>
+            <li><a class="dropdown-item" href="/page/acc/Etablissements">Etablissements</a></li>
+            <li><a class="dropdown-item" href="/page/acc/Clients">Clients</a></li>
+        </ul>
+    </li>
+    <li class="nav-link" *ngIf="(role=='Client')||(role=='Veterinaire Officiel')"><a class="dropdown-item" href="/page/acc/Mes établissements">Voir liste établissements</a></li>
+</ul>
+  

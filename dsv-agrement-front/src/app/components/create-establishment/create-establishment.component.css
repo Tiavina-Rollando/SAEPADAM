@@ -1,0 +1,11 @@
+
+form{
+    background-image: url(../../../assets/abattoir-volaille.png);
+    background-repeat: no-repeat;
+    background-position: right;
+}
+.formClient{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 2%;
+}

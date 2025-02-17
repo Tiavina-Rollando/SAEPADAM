@@ -1,0 +1,28 @@
+
+.list-group-item{
+    width: 50%;
+    left: 25%;  
+}
+
+.btn{
+    width: auto;
+    overflow: hidden; /* Pour éviter que le texte dépasse du bouton */
+    white-space: nowrap; /* Empêche le texte de se casser en plusieurs lignes */
+    transition: width 0.3s ease, color 0.3s ease; /* Transition pour la largeur et le texte */
+  
+}
+
+.btn .btn-text {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding-left: 2%;
+}
+
+.btn.show-text .btn-text {
+    opacity: 1;
+    color: white; /* Couleur du texte lorsque survolé */
+}
+.dropdown-item:hover,p:hover,.liste:hover{
+    background-color: rgba(65, 105, 225, 0.137);
+    cursor: pointer;
+}

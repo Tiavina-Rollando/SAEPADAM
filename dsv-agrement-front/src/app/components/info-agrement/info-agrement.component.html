@@ -1,0 +1,92 @@
+<a class="list-group-item list-group-item-action" aria-current="true">
+    <div class="my-3" *ngIf="withAgrement=='true'">
+        <h2 class="menu mb-3">A propos de l' agrément</h2>
+        
+        <div class="menu" *ngIf="object!='Mes établissements'">
+            <ul style="text-align: center;" class="navbar-nav mx-5 justify-content-lg-center">
+                <li class="nav-item dropdown">
+                    <a *ngIf="item.status!=3" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Menu</a>
+                    <ul class="dropdown-menu">
+                        
+                        <li (click)="editAgreement()"><a class="dropdown-item">Modifier</a></li>
+                        <li (click)="retire()"><a class="dropdown-item">Retirer</a></li>
+                        <li (click)="suspend()"><a class="dropdown-item">Suspendre</a></li>
+                        <li (click)="activate()"><a class="dropdown-item">Activer</a></li>
+                    
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <button *ngIf="(object=='Mes établissements')&&(!item.status)" appColor="color1" class="btn mx-5 px-5 mb-2 w-auto py-2" type="submit" (click)="agrement(id)">Mettre à jour</button>
+        <div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label for="numA" class="form-label">Numéro</label>
+                    <p class="form-control" *ngIf="!toEdit">{{item.numero}}</p>
+                    <input id="numA" class="form-control" *ngIf="toEdit" type="text" name="numero" placeholder="{{item.numero}}" [(ngModel)]="item.numero">
+                </div>
+        
+                <div class="col-sm-6">
+                    <label for="typeAg" class="form-label">Type d'agrément</label>
+                    <div class="input-group has-validation" *ngIf="!toEdit">
+                        <input type="text" disabled class="form-control" id="tel" name="tel" placeholder="{{item.typeagrement.name}}" [(ngModel)]="item.typeagrement.name">
+                        <span class="input-group-text" [ngStyle]="getBg(item.typeagrement.name)"></span>
+                    </div>
+                    <select class="form-control" id="typeAg" *ngIf="toEdit" name="typeagrement" [(ngModel)]="item.type_agrement_id">
+                        <option value="1">Provisoire</option>
+                        <option value="3">Provisoire prolongé</option>
+                        <option value="2">Définitif</option>
+                    </select>
+                </div>
+                
+                <div class="col-sm-6">
+                    <label for="ddd" class="form-label">Date de début</label>
+                    <p class="form-control" *ngIf="!toEdit">{{item.date_debut}}</p>
+                    <input type="date" *ngIf="toEdit" id="ddd" class="form-control" placeholder="{{item.date_debut}}" name="datedebut" [(ngModel)]="item.date_debut">
+                </div>
+
+                <div class="col-sm-6" *ngIf="!toEdit">
+                    <label for="lastName" class="form-label">Etat de l'agrément</label>
+                    <div class="input-group has-validation">
+                        <input type="text" disabled class="form-control" id="tel" name="tel" placeholder="{{item.etat}}" [(ngModel)]="item.etat">
+                        <span class="input-group-text" [ngStyle]="getBg(item.etat)"></span>
+                    </div>
+                </div>
+
+                <div class="col-sm-6" *ngIf="object=='Mes établissements'">
+                    <label for="qrcode" class="form-label">QrCode de validation</label>
+                    <img id="qrcode" [src]="qrcodeUrl" alt="Qrcode">
+                </div>
+
+                <div class="form">
+                    <input type="checkbox"  name="checkRemark" (change)="onCheckboxChange($event)" id="CER">
+                    <label for="CER">Afficher les remarques à propos de l'établissement</label>
+                </div>
+                
+                <div class="col" *ngIf="(showRemarks)&&(item.remark)">
+                    <label for="" class="form-label">Remarques:</label>
+                    <div class="form-control"  *ngFor="let remark of item.remark">
+                        <input type="checkbox" style="float: inline-start;" name="checkEtat" [checked]="remark.etat" (change)="onCheckChange($event,remark.id)" [disabled]="!toEdit" id="etatCheck">
+                        <label for="etatCheck">{{remark.description}}</label> 
+                        <i class="bi bi-trash" style="float: inline-end;" *ngIf="toEdit" (click)="suppression(remark.id)" title="Supprimer"></i>
+                    </div>
+                </div>
+
+            </div> 
+            
+            <p *ngIf="(object!='Mes établissements')&&(!toEdit)" class="my-3">Cliquer <a (click)="generateAgrementPDF()" style="color: royalblue;">ici</a> pour voir le fichier.</p>
+
+            <button class="btn mt-5 w-auto py-2" appColor="color4" *ngIf="toEdit" (click)="updateAgreement()">
+                Enregistrer
+            </button>  
+        </div>   
+    </div>
+    <div class="my-5" *ngIf="(object=='Mes établissements')&&(withAgrement=='false')&&(!demA)">
+        <h2 class="mb-3">Agrément</h2><button class="btn mb-2 w-auto py-2" appColor="color1" type="submit" (click)="agrement(id)">Envoyer une demande </button>
+    </div>
+    <div class="my-5" *ngIf="(object!='Mes établissements')&&(object!='Demandes d\'agrement')&&(withAgrement=='true')">
+        <label for="fileInput"><h3>Insérer un agrement tamponné en fichier PDF:</h3></label><br>
+        <input type="file" id="fileInput" (change)="onFileSelected($event)">
+    </div>
+      
+</a>

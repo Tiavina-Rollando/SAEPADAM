@@ -1,0 +1,28 @@
+<ngx-spinner type="ball-spin-fade"></ngx-spinner>
+
+<!-- formulaire d' enregistrement -->
+<form style="text-align: center; padding: 5% 25%;" #formulaire="ngForm" autocomplete="off">
+    <h1 class="h3 my-5 fw-normal">Ajouter un nouveau vétérinaire</h1>
+
+    <div class="form-floating mb-4">
+      <input type="email" name="email" class="form-control" id="floatingInputE" [(ngModel)]="user.email" required email #emailInput="ngModel" placeholder="email">
+      <label for="floatingInputE"style="display: inline-flex;"><i style="padding:0 1%" class="bi bi-envelope-open-fill"></i><p>Email</p></label>
+    </div>
+    <div class="form-floating mb-4">
+      <input type="text" name="name" class="form-control" id="floatingInputN" [(ngModel)]="user.name" required placeholder="Nom">
+      <label for="floatingInputN"style="display: inline-flex;"><i style="padding:0 1%" class="bi bi-person"></i><p>Nom d'utilisateur</p></label>
+    </div>
+    <div class="form-floating mb-4">
+      <input type="text" name="adresse" class="form-control" id="floatingInputA" placeholder="Adresse" [(ngModel)]="user.userinformation.address" required>
+      <label for="floatingInputA" style="display: inline-flex;"><i style="padding:0 1%" class="bi bi-geo-alt"></i><p>Adresse</p></label>
+    </div>
+    <div class="form-floating mb-4">
+      <input type="text" name="tel" class="form-control" id="floatingInputT" placeholder="Tel" [(ngModel)]="user.userinformation.tel" required>
+      <label for="floatingInputT"style="display: inline-flex;"><i style="padding:0 1%" class="bi bi-phone"></i><p>Téléphone</p></label>
+    </div>
+    <!-- boutton d'enregistrement -->
+    <button appColor="color1" class="btn w-auto mt-3 py-2" [disabled]="formulaire.invalid||emailInput.invalid" (click)="insertUser()" type="submit">Insérer</button>
+    <p class="mt-2 mb-2 text-body-secondary">&copy; 2024</p>
+    <p class="text-body-secondary">[Tous les champs sont obligatoires]</p>
+</form>
+  
