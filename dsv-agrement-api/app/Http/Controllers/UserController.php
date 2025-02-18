@@ -28,7 +28,7 @@ class UserController extends Controller
         // Utilisez la méthode where() pour rechercher l'utilisateur par adresse e-mail
         $user = User::with(['roles', 'etablissement', 'userinformation'])
                     ->where('email', $request->email)
-                    ->firstOrFail();
+                    ->get();
     
         return response()->json($user);
     }
@@ -48,25 +48,42 @@ class UserController extends Controller
         ]);
 
         try {
-            // Créez d'abord l'utilisateur
-            $user = User::create(Arr::except($request->all(), "role_id"));
+            // Vérifier si l'email existe déjà pour ce rôle
+            $existingUser = User::where('email', $request->email)
+            ->whereHas('roles', function ($query) use ($request) {
+                $query->where('role_id', $request->role_id);
+            })->exists();
 
-            // Ensuite, attribuez les rôles
-            $user->assignRoles($request->role_id);
+            if ($existingUser) {
+                throw ValidationException::withMessages([
+                    'email' => 'Cet email est déjà utilisé pour ce rôle.',
+                ]);
+                return [
+                    "status" => false,
+                    "message" => "Cet email est déjà utilisé pour ce rôle."
+                ];
+            } else {
+                // Créez d'abord l'utilisateur
+                $user = User::create(Arr::except($request->all(), "role_id"));
 
-            // Créez une entrée dans la table userinformation associée à cet utilisateur
-            $user->userInformation()->create([
-                // Récupérez les données supplémentaires nécessaires à partir de la demande
-                // Assurez-vous que les noms de champs correspondent à ceux de la table userinformation
-                'tel' => $request->input('tel'),
-                'address' => $request->input('address'),
-                'matricule' => $request->input('matricule'),
-            ]);
+                // Ensuite, attribuez les rôles
+                $user->assignRoles($request->role_id);
 
-            return [
-                "status" => true,
-                "message" => "User created"
-            ];
+                // Créez une entrée dans la table userinformation associée à cet utilisateur
+                $user->userInformation()->create([
+                    // Récupérez les données supplémentaires nécessaires à partir de la demande
+                    // Assurez-vous que les noms de champs correspondent à ceux de la table userinformation
+                    'tel' => $request->input('tel'),
+                    'address' => $request->input('address'),
+                    'matricule' => $request->input('matricule'),
+                ]);
+
+                return [
+                    "status" => true,
+                    "message" => "Utilisateur inseré."
+                ];
+            }
+            
         } catch (\Throwable $th) {
             return [
                 "status" => false,
@@ -89,9 +106,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            "email" => [
-                Rule::unique('users')->ignore($id)
-            ],
+            "email" => "required",
             "password" => "min:8"
         ]);
 

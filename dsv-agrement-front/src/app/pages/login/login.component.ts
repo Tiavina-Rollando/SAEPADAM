@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { ConnexionService } from '../../services/connexion.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
@@ -6,6 +6,7 @@ import { UserService } from '../../services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DemandeAgrementService } from '../../services/demande-agrement.service';
 import { ColorService } from '../../services/color.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
     private serviceConnexion: ConnexionService,
     private serviceU: UserService,
     private route: Router,
-    private serviceRequest : DemandeAgrementService,
+    private serviceAuth : AuthService,
     private spinner: NgxSpinnerService,
     private colorService: ColorService
   ) {}
@@ -36,10 +37,12 @@ export class LoginComponent implements OnInit {
 
       this.serviceConnexion.login(this.email, this.password)
       .then(response => {
-        
+        console.log(response.data)
+        sessionStorage.setItem('token',response.data.token);
+        sessionStorage.setItem('user',response.data.user.id);
+          
         if(response.data.status){
-          sessionStorage.setItem('token',response.data.token);
-          sessionStorage.setItem('user',response.data.user.id);
+
           this.route.navigate(['page/acc'])      
           this.spinner.hide();
           if((response.data.user.roles[0].id==1)||(response.data.user.roles[0].id==2)){
@@ -59,6 +62,7 @@ export class LoginComponent implements OnInit {
               icon: "info",
               title: `Vous êtes bien connécté ${response.data.user.name}!`
             });
+            console.log(response.data)
           }
           if(response.data.user.roles[0].id==4){
             const Toast = Swal.mixin({
@@ -76,6 +80,7 @@ export class LoginComponent implements OnInit {
               icon: "success",
               title: `Heureux de vous revoir ${response.data.user.name}!`
             });
+            console.log(response.data)
           }
         }else{
           this.spinner.hide();
@@ -88,11 +93,18 @@ export class LoginComponent implements OnInit {
         } 
       })
       .catch((err) => {
-        // console.error(err.response.data);
+        console.error(err.response.data);
+        this.spinner.hide();
+        Swal.fire({
+          icon: "error",
+          title: err.response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
       });
   
     }else{
-      // this.serviceConnexion.showError()
+      this.serviceConnexion.showError()
     }
   }
 
@@ -265,26 +277,68 @@ export class LoginComponent implements OnInit {
             this.spinner.show()
             
             this.serviceU.findByEmail(result.value)
-              .then((response)=>{
-                if(response.data.id){
-                  this.spinner.hide();            
-                  this.fonctionBoucle(response.data.email,response.data.id)
-                }else{
-                  this.spinner.hide();            
+            .then((response) => {
+              if (response.data.length>0) {
+                this.spinner.hide();
+                
+                // Vérifier s'il y a des comptes associés à cet email
+                if (response.data.length > 1) {
+                  this.spinner.hide();
+                
+                  const accountChoices = response.data.map((account: any) => ({
+                    text: `${account.roles[0].name}`,
+                    value: account.id // Enregistrer l'index comme valeur
+                  }));
+                  
+                  // Demander à l'utilisateur de choisir un compte via un SweetAlert2 select
                   Swal.fire({
-                    icon: "error",
-                    title: `Une erreur s'est produite!`,
-                    showConfirmButton: false,
-                    timer: 2000
+                    title: 'Choisissez le compte pour réinitialiser le mot de passe',
+                    input: 'select',
+                    inputOptions: accountChoices.reduce((options:any, account:any) => {
+                      options[account.value] = account.text;
+                      console.log(options)
+                      return options;
+                    }, {}),
+                    inputPlaceholder: 'Sélectionnez un compte',
+                    confirmButtonText: 'Choisir',
+                    showCancelButton: true,          
+                    cancelButtonText: "Annuler",
+                    preConfirm: (log) => {
+                      if (!log) {
+                        Swal.showValidationMessage(
+                          'Faites votre choix d\'abord pour continuer.'
+                        );
+                        return false;
+                      }
+                      // Retourner directement la valeur de la sélection, qui est l'ID du compte
+                      return log;  // Renvoie la valeur sélectionnée (ID du compte)
+                    },
+                    confirmButtonColor:`${vert}`,
+                    denyButtonColor:`${orange}`,
+                    customClass:{
+                      confirmButton:'color1',
+                      denyButton:'color3',
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                  }).then(resultat => {
+                    if (resultat.value) {
+                      var id = +resultat.value
+                      console.log(id)
+                      // Tu peux maintenant utiliser l'objet complet du compte sélectionné
+                      this.fonctionBoucle(result.value, id);  // Par exemple, appeler ta fonction avec l'id du compte sélectionné
+                    }
                   });
-   
+                  
+                } else if (response.data.length === 1) {
+                  // Si un seul compte est trouvé, l'appeler directement
+                  this.fonctionBoucle(response.data[0].email, response.data[0].id);
                 }
-              })
-              .catch(()=>{
+              }})
+              .catch((err)=>{
                 this.spinner.hide();
                 Swal.fire({
                   icon: "error",
-                  title: `Votre email ne figure pas dans la base de données!`,
+                  title: err.message  ,
                   showConfirmButton: false,
                   timer: 2000
                 });

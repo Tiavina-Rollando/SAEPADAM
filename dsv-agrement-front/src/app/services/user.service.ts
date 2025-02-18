@@ -20,7 +20,7 @@ export class UserService {
   ){}
   
   // Accéder à localStorage ici
-  token = this.serviceAuth.getToken();
+  token = sessionStorage.getItem('token');
   httpOptions = {
     headers: {
         'Content-Type': 'application/json',
@@ -28,6 +28,11 @@ export class UserService {
         'Authorization': this.token ? 'Bearer ' + this.token : '' // Assurez-vous que le jeton est inclus seulement s'il est disponible
     }
   };
+  async findOneFirst(id:number,tokn:string): Promise<AxiosResponse> {
+    this.httpOptions.headers.Authorization = 'Bearer '+tokn;
+    console.log(this.httpOptions.headers)
+    return await axios.get(`${config.api_url}/users/${id}`, this.httpOptions);
+  }
   async findOne(id:number): Promise<AxiosResponse> {
     return await axios.get(`${config.api_url}/users/${id}`, this.httpOptions);
   }
@@ -55,7 +60,9 @@ export class UserService {
   async getAllNotif(): Promise<AxiosResponse> {
     return await axios.get(`${config.api_url}/mine/notifications`, this.httpOptions);
   }
-  async getUnseenNotif(): Promise<AxiosResponse> {
+  async getUnseenNotif(tokn:string): Promise<AxiosResponse> {
+    this.httpOptions.headers.Authorization = 'Bearer '+tokn;
+    console.log(this.httpOptions.headers)
     return await axios.get(`${config.api_url}/mine/notifications/unseen`, this.httpOptions);
   }
   async deleteNotif(id:number): Promise<AxiosResponse> {

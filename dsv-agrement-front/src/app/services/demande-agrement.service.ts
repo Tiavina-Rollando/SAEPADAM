@@ -25,6 +25,11 @@ export class DemandeAgrementService {
   async findAll(): Promise<AxiosResponse> {
     return await axios.get(`${config.api_url}/demande/agrements`, this.httpOptions);
   }
+  async findByStatusFirst(status:number, tokn:string): Promise<AxiosResponse> {
+    this.httpOptions.headers.Authorization = 'Bearer '+tokn;
+    console.log(this.httpOptions.headers)
+    return await axios.post(`${config.api_url}/demande/agrements/showByStatus`, {status} , this.httpOptions);
+  }
   async findByStatus(status:number): Promise<AxiosResponse> {
     return await axios.post(`${config.api_url}/demande/agrements/showByStatus`, {status} , this.httpOptions);
   }

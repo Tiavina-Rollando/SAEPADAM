@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { DataService } from '../../services/data.service';
 import Pusher from 'pusher-js';
 import pusherJs from 'pusher-js';
+import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-admin',
@@ -29,8 +30,8 @@ import pusherJs from 'pusher-js';
 })
 export class AdminComponent implements OnInit{
   
-  echo !: Echo;
   pusher !: pusherJs;
+  echo !: any;
   
   notif!:number;
   unseen!:number;
@@ -41,11 +42,11 @@ export class AdminComponent implements OnInit{
   nbr!:number;
   hasObjet!:boolean
   idU!:string|null
+  token !: string;
 
   constructor(
     private activatedRoute:ActivatedRoute,
     private serviceU : UserService,
-    private route: Router,
     private serviceRequest: DemandeAgrementService,
     private router : Router,
   ){
@@ -94,46 +95,29 @@ export class AdminComponent implements OnInit{
       }
     })
   }
-
-  loadNotifications(){
-
-    this.serviceU.getUnseenNotif()
-    .then(response=>{
-      this.unseen = response.data.length;
-    })
     
-    this.serviceRequest.findByStatus(1)
-    .then(response=>{
-      this.notif = response.data.length
-    })
-
+  loadNotifications(){
+    const tkn = sessionStorage.getItem('token');
+    if (!tkn) {
+      console.error('Aucun token trouvé en session');
+      return;
+    }
+    if(tkn){
+      this.serviceU.getUnseenNotif(tkn)
+      .then(response=>{
+        this.unseen = response.data.length;
+      })
+    
+    
+      this.serviceRequest.findByStatusFirst(1,tkn)
+      .then(response=>{
+        this.notif = response.data.length
+      })
+    }
   }
 
   ngOnInit(): void {
-
-    if ((typeof sessionStorage !== 'undefined')) {
-      // Accédez à sessionStorage ici
-      const  userId= sessionStorage.getItem('user');
-      if (userId) {
-        this.serviceU.findOne(+userId)
-          .then(response => {
-            if(response.data){
-              this.roles = response.data.roles[0].name;
-              this.name = response.data.name;
-              this.nbr = response.data.etablissement.length;
-             }else{
-              this.route.navigate(['acceuil'])
-            }
-          })
-          .catch((err) => {
-            console.log(err.response.data);
-          });
-      }  
-    } else {
-      // Gérez le cas où sessionStorage n'est pas défini
-      console.error('sessionStorage is not defined in this environment');
-    }
-
+    
     this.websocketChannelListening();
 
     this.loadNotifications();

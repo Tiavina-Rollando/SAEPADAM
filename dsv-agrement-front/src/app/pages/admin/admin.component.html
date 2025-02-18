@@ -1,9 +1,9 @@
 <div style="display: inline-flex;width: 100%;padding-top: 5%;">
     <div id="" style="width: 22%;">
         <!-- case pour profil -->
-        <app-profil [role]="roles" [username]="name" [userdepnumber]="nbr"></app-profil>    
+        <app-profil ></app-profil>    
         <!-- case pour menu -->
-        <app-menu [role]="roles" [notif]="notif" [unseen]="unseen"></app-menu>
+        <app-menu [notif]="notif" [unseen]="unseen"></app-menu>
     </div>
     <div id="table" style="width: 75%;">
         <div *ngIf="!objet" class="content">

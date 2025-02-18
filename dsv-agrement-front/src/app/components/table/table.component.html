@@ -6,6 +6,7 @@
       <input class="form-control" *ngIf="objet=='Agrements'" type="text" [(ngModel)]="searchTerms" #searchBox name="searchBox" (keyup)="search(searchBox.value)" placeholder="Recherche par numéro" aria-label="Search">
       <input class="form-control" *ngIf="objet=='Demandes'" type="date" [(ngModel)]="searchDate" #searchDate name="searchBox" (change)="searchByDate(searchDate.value)" placeholder="Recherche par date" aria-label="Search">
     </form>
+    
   </div>
   <div *ngIf="(objet=='Users')">
       <h2>{{object}} ( {{filtredItems.length}} )</h2>
@@ -38,9 +39,12 @@
       <h2 (click)="reload()">
         {{object}} ( {{filtredItems.length}} )
       </h2>
+      <li class="nav-link" *ngIf="filtredItems.length<1"><a class="dropdown-item" (click)="reload()">Sans filtre</a></li>
+    
       <p style="text-align: center;" *ngIf="filtredItems.length<1">Aucun résultats</p>
       
       <div *ngIf="filtredItems.length>0">
+        
         <div *ngIf="objet=='Etablissements'">
               
           <li class="nav-item dropdown">
@@ -106,10 +110,9 @@
                 <li *ngFor="let etab of etablissements" (click)="searchByEtablissement(etab.name)"><a class="dropdown-item">{{etab.name}}</a></li>
             </ul>
           </li>
-    
+
         </div>
-  
-  
+    
         <div class="table-responsive small">
           <table class="table table-striped table-sm">
             <thead>
